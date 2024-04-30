@@ -1,28 +1,32 @@
-##                              URL Shortner
+##                              Task Submission
 
 
-Usually small third party websites have long urls which it takes up more space than the actual message we want to share. So we can use a URL Shortner to shorten the url and make it more readable.
+Elevate your academic excellence with our new task submission platform with personalized feedback
 
 
 ## Access
 
-Inorder to access the app you have to sign up and verify your account in *[URL Shortner](https://urlshortner7.netlify.app/)*
+Inorder to access the app you have to sign up in *[Task Submission](https://tasksubmission.netlify.app/)*
 
-After verifying your account, you can create short urls and share them with your friends by logging into your account.
+After registering your account, you can submit your deployed task urls and code in the form and wait for some time to recieve the feedback by logging into your account.
 
-You can also see the number of short urls and the long urls corresponding to the short urls in your dashboard.
+You can also keep track of your progress from day1 as the submitted tasks will be displayed on your dashboard.
 
 
 
 ## Features
 
-Each and every time you create a short url you can see the number of short urls and the long urls in the table updating accordingly.
+Each and every time you submit your task, the list gets updated
 
-This is done by calling the ***getcreatedurls api*** whenever you create a short url and passing it to the table component.
+This is done by calling the ***gettask api*** whenever you submit the task and passing it to the dashboard component.
 
 
 ## UI
 
-### TAILWIND CSS 
+### BootStrap
 
-I have used tailwind css for the UI of the app but I didn't make it responsive. In my next website I will make it responsive and more appealing UI
+I have used bootstrap css for the UI of the app but I didn't make it responsive. By the time you reading this I would have updated the responsiveness
+
+### Update
+
+I am working on the refresh button so that if there is any changes in component you dont have to log out and log back in 
