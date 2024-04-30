@@ -64,7 +64,7 @@ const Mentor = ({ baseURL, userData }) => {
   console.log(comment, score);
   return (
       <div>
-          <button type="button" onClick={fetchData()}>Refresh</button>
+          <button type="button" onClick={()=>fetchData()}>Refresh</button>
       <div className="card">
         {data.map((item, index) => {
           return (
