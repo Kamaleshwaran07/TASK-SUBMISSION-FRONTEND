@@ -68,7 +68,9 @@ const Student = ({ userData, baseURL }) => {
           }}
         >
           {visible ? <h5>Task Form</h5> : <h5>Submitted Task</h5>}
-        </button>
+              </button>
+              <button className="btn" type="button" onClick={() => fetchData()}>Refresh</button>
+
       </nav>
       <div className="" style={{}}>
         {/* Handling the task submission form*/}

@@ -23,11 +23,16 @@ const Mentor = ({ baseURL, userData }) => {
 
   // To fetch the submitted tasks
   const fetchData = async () => {
-    const response = await axios.post(`${baseURL}gettask/${userId}`);
-    setData(response.data.submittedTask);
-    // console.log(response.data.submittedTask);
-    setResponseMsg(response.data.message);
-    setShowToast(true);
+   try {
+       const response = await axios.post(`${baseURL}gettask/${userId}`);
+       setData(response.data.submittedTask);
+       // console.log(response.data.submittedTask);
+       setResponseMsg(response.data.message);
+       setShowToast(true);
+   } catch (error) {
+       setErrorMsg(error.response.data.message);
+
+   } 
   };
 
   // To send the task id to the backend
@@ -64,7 +69,7 @@ const Mentor = ({ baseURL, userData }) => {
   console.log(comment, score);
   return (
       <div>
-          <button type="button" onClick={()=>fetchData()}>Refresh</button>
+          <button className="btn" type="button" onClick={()=>fetchData()}>Refresh</button>
       <div className="card">
         {data.map((item, index) => {
           return (
