@@ -31,6 +31,8 @@ const Mentor = ({ baseURL, userData }) => {
        setShowToast(true);
    } catch (error) {
        setErrorMsg(error.response.data.message);
+       setShowToast(true);
+
 
    } 
   };
