@@ -8,6 +8,7 @@ const Mentor = ({ baseURL, userData }) => {
   const [responseMsg, setResponseMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
   // To show toast for 5 seconds
   useEffect(() => {
@@ -25,7 +26,11 @@ const Mentor = ({ baseURL, userData }) => {
   const fetchData = async () => {
    try {
        const response = await axios.post(`${baseURL}gettask/${userId}`);
-       setData(response.data.submittedTask);
+       setIsLoading(true)
+       setData(response.data.comments);
+       setTimeout(() => {
+           setIsLoading(false)
+        }, 3500)
        // console.log(response.data.submittedTask);
        setResponseMsg(response.data.message);
        setShowToast(true);
@@ -67,16 +72,30 @@ const Mentor = ({ baseURL, userData }) => {
   // To fetch the data on load
   useEffect(() => {
     fetchData();
-  }, [baseURL, userId]);
+  }, []);
   console.log(comment, score);
   return (
       <div>
-          <button className="btn" type="button" onClick={()=>fetchData()}>Refresh</button>
-      <div className="card">
+          <button className="btn ms-3 p-2" type="button" onClick={() => fetchData()}>Refresh
+
+             
+          </button>
+              {isLoading && (
+                  
+                  <div class="loaderContainer ms-2">
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                      <div class="dot"></div>
+                  </div>
+             )}
+      <div className="">
         {data.map((item, index) => {
           return (
             <div key={index}>
-              <div>
+              <div className="card">
                 <h4>Task Name: {item.title}</h4>
                 <h6>
                   Front End Code:{" "}

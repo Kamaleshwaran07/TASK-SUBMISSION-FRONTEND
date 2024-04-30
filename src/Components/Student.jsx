@@ -11,7 +11,8 @@ const Student = ({ userData, baseURL }) => {
   const [showToast, setShowToast] = useState(false);
   const [title, setTitle] = useState("");
   const [data, setData] = useState([]);
-  const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
   const userId = userData._id;
   // console.log(userId);
 
@@ -19,7 +20,11 @@ const Student = ({ userData, baseURL }) => {
   const fetchData = async () => {
     try {
       const response = await axios.post(`${baseURL}gettask/${userId}`);
-      setData(response.data.comments);
+      setIsLoading(true)
+        setData(response.data.comments);
+        setTimeout(() => {
+            setIsLoading(false)
+        },1500)
     } catch {
       setErrorMsg(error.response.data.message);
     }
@@ -60,7 +65,7 @@ const Student = ({ userData, baseURL }) => {
   // }
   return (
     <div className="container">
-      <nav className="position-absolute" style={{top:"5.2em", left:"3em"}}>
+      <nav className="position-absolute d-flex" style={{top:"5.2em", left:"3em"}}>
         <button
           className="btn border border-2 pt-2 pb-0 ms-0"
           onClick={() => {
@@ -69,7 +74,19 @@ const Student = ({ userData, baseURL }) => {
         >
           {visible ? <h5>Task Form</h5> : <h5>Submitted Task</h5>}
               </button>
-              <button className="btn" type="button" onClick={() => fetchData()}>Refresh</button>
+              <button className="btn ms-3 pt-2 pb-0 d-flex  bg-black text-white" type="button" onClick={() => fetchData()}>Refresh
+                  {isLoading && (
+                      
+                  <div class="loaderContainer ms-2">
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                      </div>
+                  )}
+              </button>
 
       </nav>
       <div className="" style={{}}>
