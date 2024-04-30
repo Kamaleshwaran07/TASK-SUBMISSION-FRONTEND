@@ -58,7 +58,7 @@ const Student = ({ userData, baseURL }) => {
 
     return (
         <div className='container'>
-        
+        <button type='button' onClick={fetchData()}>Refresh</button>
             <div className='row'>
             {/* Handling the task submission form*/}
            
