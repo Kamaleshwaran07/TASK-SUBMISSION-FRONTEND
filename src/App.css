@@ -218,7 +218,7 @@
 
   .loaderContainer {
     --uib-size: 25px;
-    --uib-color: rgb(0, 0, 0);
+    --uib-color: rgb(255, 255, 255);
     --uib-speed: 1.5s;
     --dot-size: calc(var(--uib-size) * 0.17);
     position: relative;
