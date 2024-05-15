@@ -1,8 +1,9 @@
 import axios from "axios";
 import { setNestedObjectValues } from "formik";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Student = ({ userData, baseURL }) => {
+const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
   const [frontendcode, setFrontendCode] = useState("");
   const [frontendurl, setFrontendUrl] = useState("");
   const [backendcode, setBackendCode] = useState("");
@@ -11,6 +12,7 @@ const Student = ({ userData, baseURL }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [title, setTitle] = useState("");
+  // const [taskId, setTaskId] = useState('')
   const [data, setData] = useState([]);
   const [pendingData, setPendingData] = useState([]);
     const [visible, setVisible] = useState(false);
@@ -18,7 +20,7 @@ const Student = ({ userData, baseURL }) => {
     const [isLoading, setIsLoading] = useState(false)
   const userId = userData._id;
   // console.log(userId);
-
+ const navigate = useNavigate()
   // Fetching the submitted task
   const fetchData = async () => {
     try {
@@ -61,6 +63,11 @@ const Student = ({ userData, baseURL }) => {
       setShowToast(true);
     }
   };
+  const handleEdit = (taskId) => {
+    setTaskId(taskId)
+    // setUserID(userId)
+    navigate('/tasksubmit')
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -108,17 +115,19 @@ const Student = ({ userData, baseURL }) => {
       <div className="" style={{}}>
         {/* Handling the task submission form*/}
         {visible ? (
-          <div className="container-fluid" href="/form">
+          <div className="container" href="/form">
             <h3>Task Submission</h3>
-            <div className="row justify-content-evenly">
+            <div className="">
               {pendingData.map((item, index) => {
-                const dateandtime = item.createdAt;
-                const split = dateandtime.split(", ");
+                {
+                  /* const dateandtime = item.createdAt;
+                const split = dateandtime.split(", "); */
+                }
                 return (
                   <div
-                    className="card py-3  col-3"
+                    className="d-flex  align-items-center justify-content-evenly gap-2 p-2"
                     key={index}
-                    style={{ height: "25em" }}
+                    style={{ width: "35rem" }}
                   >
                     <h5>
                       Title: <span className="text-primary">{item.title}</span>
@@ -126,7 +135,14 @@ const Student = ({ userData, baseURL }) => {
                     <h6 className="fw-normal">
                       Status: <span className="text-danger">{item.status}</span>
                     </h6>
-                    {item.typeoftask === "Frontend" && (
+                    {/* <h4>{item.taskId}</h4> */}
+                    <button
+                      className="btn border-2 btn-primary float-end"
+                      onClick={() => handleEdit(item.taskId)}
+                    >
+                      Submit your task
+                    </button>
+                    {/* {item.typeoftask === "Frontend" && (
                       <>
                         <form
                           className=" rounded-3 py-3"
@@ -349,7 +365,7 @@ const Student = ({ userData, baseURL }) => {
                           Time: <span>{split[1]}</span>
                         </div>
                       </>
-                    )}
+                    )} */}
                   </div>
                 );
               })}
@@ -444,37 +460,46 @@ const Student = ({ userData, baseURL }) => {
           </div>
         ) : (
           <div href="/tasks" className={visible ? "d-none" : "row  ms-0 "}>
-            <div className="col-6 Taskbar"></div>
-            <div className="col-6 Taskbar rounded-3 py-2">
+            <div className=" Taskbar rounded-3 py-2 mb-2">
               <h4 className="text-center">Submitted Tasks</h4>
-              <div className="row gap-2">
-                <div className="col-6">
+              <div className="gap-2">
+                <div className="d-flex flex-column-reverse ">
                   {data.map((item, index) => {
                     return (
                       <>
                         <div
-                          className="card p-2 m-2 border text-white rounded-3 border-secondary bg-black"
+                          className={
+                            item.comment === "Not yet Graded"
+                              ? "p-2 m-2 border text-black rounded-3 border-warning bg-warning justify-content-start"
+                              : "p-2 m-2 border text-black rounded-3 border-success bg-success-subtle justify-content-start"
+                          }
                           id="secandory"
                           style={{ width: "" }}
                           key={index}
                         >
-                          <h5 className="me-2">
+                          <h5 className="me-2 d-flex border border-black border-1 bg-white p-2 rounded">
                             Title:
-                            <span className="ms-2 text-primary">
+                            <span className="ms-2 text-primary-emphasis">
                               {item.title}
                             </span>
                           </h5>
-                          <h5 className="me-2">
+                          <h5 className="me-2 border border-black border-1 bg-white p-2 rounded">
                             Status:
-                            <span className="ms-2 text-info">
+                            <span className="ms-2 text-primary-emphasis">
                               {item.status}
                             </span>
                           </h5>
-                          <h5 className="me-2">
+                          <h5 className="me-2 border border-black border-1 bg-white p-2 rounded">
                             Comment:
-                            <span className="ms-2">{item.comment}</span>
+                            {item.comment === "Not yet Graded" ? (
+                              <span className="ms-2 ">{item.comment}</span>
+                            ) : (
+                              <>
+                                <span className="ms-2">{item.comment}</span>
+                              </>
+                            )}
                           </h5>
-                          <h5 className="me-2">
+                          <h5 className="me-2 border border-black border-1 ms-auto bg-white p-2 rounded">
                             Score:
                             {item.score >= 6 && item.score < 8 && (
                               <span

@@ -7,9 +7,11 @@ import NavBar from './Components/NavBar';
 import Dashboard from './Components/Dashboard';
 import Forgotpassword from './Components/Forgotpassword';
 import Resetpassword from './Components/Resetpassword';
+import Tasksubmitform from './Components/Tasksubmitform';
 
 const App = () => {
-
+  const [taskId, setTaskId] = useState(0)
+  const [userID, setUserID] = useState(0);
   // const baseURL = 'https://urlshort-backend-r5lw.onrender.com/api/';
   // const baseURL = 'https://task-submission-backend-m1do.onrender.com/api/';
   const baseURL = "http://localhost:5050/api/";
@@ -27,9 +29,9 @@ const [isAuthenticated, setIsAuthenticated] = useState(false)
          
 
           <Route path='/login' element={<Login baseURL={baseURL} setUserData={setUserData} setIsAuthenticated= {setIsAuthenticated} />} />
-          <Route path='/dashboard' element={<Dashboard userData={userData} setIsAuthenticated ={setIsAuthenticated} baseURL={baseURL} />} />
+          <Route path='/dashboard' element={<Dashboard userData={userData} setIsAuthenticated ={setIsAuthenticated} baseURL={baseURL} setTaskId = {setTaskId} setUserID = {setUserID} />} />
  
-         
+         <Route path='tasksubmit' element = {<Tasksubmitform baseURL = {baseURL} taskId = {taskId} userID= {userID} userData = {userData} />} />
 
           <Route path='/forgotpassword' element={<Forgotpassword baseURL={baseURL} />} />
           <Route path='/resetpassword/:userId/:token' element={<Resetpassword baseURL={baseURL} />} />

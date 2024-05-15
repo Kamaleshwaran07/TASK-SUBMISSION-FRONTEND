@@ -4,7 +4,7 @@ import Mentor from "./Mentor";
 import Student from "./Student";
 import errorimage from "/404.gif"
 
-const Dashboard = ({ userData, baseURL }) => {
+const Dashboard = ({ userData, baseURL, setTaskId }) => {
   const user = userData;
     
   return user ? (
@@ -20,7 +20,7 @@ const Dashboard = ({ userData, baseURL }) => {
         </h6>
         <hr className="shadow-xl" />
      {/* To load the respective dashboard based on the role of the user */}
-        {userData.role == "Mentor" ? <Mentor baseURL={baseURL} userData={userData} /> : <Student baseURL={baseURL} userData={userData} />}
+        {userData.role == "Mentor" ? <Mentor baseURL={baseURL} userData={userData} /> : <Student baseURL={baseURL} userData={userData} setTaskId = {setTaskId} />}
       
         </div>
     ) : (

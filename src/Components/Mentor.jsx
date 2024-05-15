@@ -7,6 +7,9 @@ const Mentor = ({ baseURL, userData }) => {
   const [score, setScore] = useState("");
   const [responseMsg, setResponseMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [title, setTitle] = useState("");
+  const [typeoftask, setTypeOfTask] = useState("")
+  const [visible, setVisible] = useState("")
   const [showToast, setShowToast] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -27,7 +30,7 @@ const Mentor = ({ baseURL, userData }) => {
    try {
        const response = await axios.post(`${baseURL}gettask/${userId}`);
        setIsLoading(true)
-       setData(response.data.comments);
+       setData(response.data.submittedTask);
        setTimeout(() => {
            setIsLoading(false)
         }, 3500)
@@ -69,131 +72,231 @@ const Mentor = ({ baseURL, userData }) => {
       }
     }
   };
+  const handleCreateTaskSubmit = async (e) => {
+    e.preventDefault()
+    const payloads = { title, typeoftask };
+    console.log(payloads);
+    try {
+      const response = await axios.post(`${baseURL}createtask/`, payloads);
+      setResponseMsg(response.data.message);
+      
+      
+    } catch (error) {
+      setErrorMsg(error.response.data.message)
+    }
+  }
   // To fetch the data on load
   useEffect(() => {
     fetchData();
   }, []);
   console.log(comment, score);
   return (
-      <div>
-          <button className="btn ms-3 p-2" type="button" onClick={() => fetchData()}>Refresh
-
-             
-          </button>
-              {isLoading && (
-                  
-                  <div class="loaderContainer ms-2">
-                      <div class="dot"></div>
-                      <div class="dot"></div>
-                      <div class="dot"></div>
-                      <div class="dot"></div>
-                      <div class="dot"></div>
-                      <div class="dot"></div>
-                  </div>
-             )}
-      <div className="">
-        {data.map((item, index) => {
-          return (
-            <div key={index}>
-              <div className="card">
-                <h4>Task Name: {item.title}</h4>
-                <h6>
-                  Front End Code:{" "}
-                  <span>
-                    <a href={item.frontEndCode}>{item.frontEndCode}</a>
-                  </span>
-                </h6>
-                <h6>
-                  Front End Code:{" "}
-                  <span>
-                    <a href={item.frontEndUrl}>{item.frontEndUrl}</a>
-                  </span>
-                </h6>
-                <h6>
-                  Front End Code:{" "}
-                  <span>
-                    <a href={item.backEndCode}>{item.backEndCode}</a>
-                  </span>
-                </h6>
-                <h6>
-                  Front End Code:{" "}
-                  <span>
-                    <a href={item.backEndUrl}>{item.backEndUrl}</a>
-                  </span>
-                </h6>
-                <div class="form-floating   mb-3 position-relative">
-                  <input
-                    type="text"
-                    class="form-control shadow-lg rounded-end"
-                    onChange={(e) => setComment(e.target.value)}
-                    id="floatingInput"
-                    value={comment}
-                    name="comment"
-                    placeholder=""
-                    aria-label=""
-                    aria-describedby="button-addon2"
-                    style={{
-                      width: "50%",
-                    }}
-                    required
-                  />
-
-                  <label name="comment" for="floatingInput">
-                    Comment
-                  </label>
-                </div>
-
-                <div class="form-floating   mb-3 position-relative">
-                  <input
-                    type="text"
-                    class="form-control shadow-lg rounded-end"
-                    onChange={(e) => setScore(e.target.value)}
-                    id="floatingInput"
-                    value={score}
-                    name="score"
-                    placeholder=""
-                    aria-label=""
-                    aria-describedby="button-addon2"
-                    style={{
-                      width: "50%",
-                    }}
-                    required
-                  />
-
-                  <label name="score" for="floatingInput">
-                    Score
-                  </label>
-                </div>
-
-                <button
-                  onClick={handleSubmit}
-                  class="btn btn-primary"
-                  type="submit"
-                  id=""
-                >
-                  Submit
-                </button>
+    <div>
+      <nav
+        className="d-flex position-absolute"
+        style={{ top: "5.2em", left: "3em" }}
+      >
+        <button
+          id={visible ? "active" : null}
+          className="btn border border-2 pt-2 pb-0 ms-0 me-2"
+          onClick={() => {
+            setVisible(!visible);
+            fetchData();
+          }}
+        >
+          <h6>Submitted Tasks </h6>
+        </button>
+        <button
+          id={visible ? null : "active"}
+          className="btn border border-2 pt-2 pb-0 ms-0"
+          onClick={() => setVisible(!visible)}
+        >
+          <h6>Create Task</h6>
+        </button>
+        <button
+          className="btn ms-3 p-2"
+          type="button"
+          onClick={() => fetchData()}
+        >
+          Refresh
+        </button>
+      </nav>
+      {isLoading && (
+        <div class="loaderContainer ms-2">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      )}
+      {visible ? (
+        <div className="row">
+          {data.length === 0 ? (
+            <>
+              <div className="text-warning text-center text-uppercase">
+                There is no task to be evaluated right now
               </div>
+            </>
+          ) : (
+            <>
+              {data.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <div className="container ">
+                      <form
+                        className="form rounded p-3"
+                        onSubmit={handleSubmit}
+                        style={{ height: "25em" }}
+                      >
+                        <div>
+                          <h4>Task Name: {item.title}</h4>
+                          <h6>
+                            Frontend Code:{" "}
+                            <span>
+                              <a href={item.frontEndCode}>
+                                {item.frontEndCode}
+                              </a>
+                            </span>
+                          </h6>
+                          <h6>
+                            Frontend URL:{" "}
+                            <span>
+                              <a href={item.frontEndUrl}>{item.frontEndUrl}</a>
+                            </span>
+                          </h6>
+                          <h6>
+                            Backend Code:{" "}
+                            <span>
+                              <a href={item.backEndCode}>{item.backEndCode}</a>
+                            </span>
+                          </h6>
+                          <h6>
+                            Backend URL Code:{" "}
+                            <span>
+                              <a href={item.backEndUrl}>{item.backEndUrl}</a>
+                            </span>
+                          </h6>
+                        </div>
+                        <div className="mt-3">
+                          <div class="form-floating   mb-3 position-relative">
+                            <input
+                              type="text"
+                              class="form-control shadow-lg rounded-end"
+                              onChange={(e) => setScore(e.target.value)}
+                              id="floatingInput"
+                              value={score}
+                              name="score"
+                              placeholder=""
+                              aria-label=""
+                              aria-describedby="button-addon2"
+                              style={{
+                                width: "50%",
+                              }}
+                              required
+                            />
+
+                            <label name="score" for="floatingInput">
+                              Score
+                            </label>
+                          </div>
+                          <div class="form-floating   mb-3 position-relative">
+                            <textarea
+                              type="text"
+                              class="form-control overflow-auto shadow-lg rounded-end"
+                              onChange={(e) => setComment(e.target.value)}
+                              id="floatingInput"
+                              value={comment}
+                              name="comment"
+                              placeholder=""
+                              aria-label=""
+                              aria-describedby="button-addon2"
+                              style={{
+                                width: "50%",
+                              }}
+                              required
+                            ></textarea>
+
+                            <label name="comment" for="floatingInput">
+                              Comment
+                            </label>
+                          </div>
+
+                          <button class="btn btn-primary" type="submit" id="">
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="col-6 container">
+          <form onSubmit={handleCreateTaskSubmit}>
+            <div class="form-floating   mb-3 position-relative">
+              <input
+                type="text"
+                class="form-control shadow-lg rounded-end"
+                onChange={(e) => setTitle(e.target.value)}
+                id="floatingInput"
+                value={title}
+                name="title"
+                placeholder=""
+                aria-label=""
+                aria-describedby="button-addon2"
+              />
+
+              <label className="fw-normal" name="title" for="floatingInput">
+                Title
+              </label>
             </div>
-          );
-        })}
-      </div>
+            <div class="  mb-3">
+              <label name="typeoftask">Type of task</label>
+
+              <select
+                className="form-select"
+                name="typeoftask"
+                value={typeoftask}
+                aria-label="Default select example"
+                onChange={(e) => setTypeOfTask(e.target.value)}
+              >
+                <option disabled selected>
+                  Select Type of Task
+                </option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="FullStack">FullStack</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit" id="">
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
       <div>
-        {showToast && responseMsg && (
+        {showToast && responseMsg ? (
           <div
-            className="toaster text-primary fw-bold d-flex p-2 align-items-center"
+            className="toaster text-primary fw-bold position-absolute d-flex p-2 align-items-center"
             style={{ top: "125px", right: "40px", borderRadius: "5px" }}
           >
             {responseMsg}
           </div>
-        )}
-        {showToast && errorMsg && (
-          <div
-            className="toaster text-danger fw-bold d-flex p-2 align-items-center"
-            style={{ top: "125px", right: "40px", borderRadius: "5px" }}
-          >
-            {errorMsg}
-          </div>
+        ) : (
+          showToast &&
+          errorMsg && (
+            <div
+              className="toaster text-danger fw-bold position-absolute d-flex p-2 align-items-center"
+              style={{ top: "125px", right: "40px", borderRadius: "5px" }}
+            >
+              {errorMsg}
+            </div>
+          )
         )}
       </div>
     </div>
