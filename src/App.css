@@ -182,7 +182,7 @@
 .login-box {
   width: 400px;
   padding: 40px;
-  margin-top: 150px;
+  margin-top: 100px;
 
   /* transform: translate(-50%, -50%); */
   background: rgba(24, 20, 20, 0.987);
@@ -218,7 +218,7 @@
 
   .loaderContainer {
     --uib-size: 25px;
-    --uib-color: rgb(255, 255, 255);
+    --uib-color: rgb(7, 0, 0);
     --uib-speed: 1.5s;
     --dot-size: calc(var(--uib-size) * 0.17);
     position: relative;

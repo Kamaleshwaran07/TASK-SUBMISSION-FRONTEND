@@ -12,13 +12,34 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
       navigate("/login"); // Redirect to Login after 3 seconds
       
     }, 3000)
-   
+    
     localStorage.removeItem("token");
     setIsAuthenticated(false);
     setTimeout(() => {
       
       window.location.reload();
     }, 3000)
+    return (
+      <div
+        className=""
+        style={{
+          marginLeft: "45%",
+          paddingBottom: "9rem",
+          marginTop: "20rem",
+          backgroundColor: "white",
+          height: "50em",
+          width: "50vw",
+          overflowY: "hidden",
+        }}
+      >
+        <div className="loginLoader">
+          <div className="half"></div>
+          <div className="half"></div>
+        </div>
+        <br />
+        <h3 className="text-primary d-block fs-4">Logging you out</h3>
+      </div>
+    );
   }
 
   return (
@@ -35,7 +56,7 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
             <div className="half"></div>
           </div>
           <br />
-          <h3 className="text-primary d-block fs-4">Logging you out</h3>
+          {/* <h3 className="text-primary d-block fs-4">Logging you out</h3> */}
         </div>
       )}
       {
@@ -48,7 +69,12 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
                 <ul className="navbar-nav me-auto flex-row align-items-center fs-5">
                   <li className="nav-item">
 
-                    <Link className="nav-link me-2 active outfit" to={"/"}>
+                    <Link className="nav-link me-2 active outfit" to={"/"} onClick={() => {
+                      setIsLoading(true)
+                      setTimeout(() => {
+                        setIsLoading(false)
+                      },1000)
+                    }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"

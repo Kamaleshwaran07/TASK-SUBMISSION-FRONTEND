@@ -78,8 +78,8 @@ const Signin = ({ baseURL }) => {
  
   return (
     <div className="container-fluid ">
-      <h4 className="text-center mt-3 text-uppercase">Sign up to start submitting your tasks</h4>
-      <div class="login-box ms-auto me-auto mt-5">
+      <h5 className="text-center mt-3 text-uppercase">Sign up to start submitting your tasks</h5>
+      <div class="login-box ms-auto me-auto mt-2">
         <h3 className="text-white mb-4">Sign Up</h3>
 
         <form onSubmit={formik.handleSubmit}>
