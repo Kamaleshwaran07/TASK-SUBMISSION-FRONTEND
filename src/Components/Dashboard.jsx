@@ -9,7 +9,7 @@ const Dashboard = ({ userData, baseURL, setTaskId }) => {
     
   return user ? (
     
-      <div className="relative">
+      <div className="position-relative">
         <h5 className="text-4 text-xl text-end  me-5 mt-2">
           Username: <span className="text-primary">{userData.name}</span>
           <br></br>

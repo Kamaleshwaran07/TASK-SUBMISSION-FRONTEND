@@ -69,8 +69,8 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       {!isLoading && (
         <>
           <nav
-            className="position-absolute d-flex"
-            style={{ top: "5.2em", left: "3em" }}
+            className="fixed-top d-flex"
+            style={{ top: "6em", left: "3em" }}
           >
             <button
               id={visible ? "active" : null}

@@ -19,27 +19,6 @@ const NavBar = ({ setIsAuthenticated, isAuthenticated }) => {
       
       window.location.reload();
     }, 3000)
-    return (
-      <div
-        className=""
-        style={{
-          marginLeft: "45%",
-          paddingBottom: "9rem",
-          marginTop: "20rem",
-          backgroundColor: "white",
-          height: "50em",
-          width: "50vw",
-          overflowY: "hidden",
-        }}
-      >
-        <div className="loginLoader">
-          <div className="half"></div>
-          <div className="half"></div>
-        </div>
-        <br />
-        <h3 className="text-primary d-block fs-4">Logging you out</h3>
-      </div>
-    );
   }
 
   return (
