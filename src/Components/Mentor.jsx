@@ -72,10 +72,12 @@ const Mentor = ({ baseURL, userData }) => {
       }
     }
   };
+  console.log(title, typeoftask);
   const handleCreateTaskSubmit = async (e) => {
     e.preventDefault()
     const payloads = { title, typeoftask };
-    console.log(payloads);
+    console.log(title, typeoftask);
+    // console.log(payloads);
     try {
       const response = await axios.post(`${baseURL}createtask/`, payloads);
       setResponseMsg(response.data.message);
@@ -279,7 +281,8 @@ const Mentor = ({ baseURL, userData }) => {
                     name="title"
                     placeholder=""
                     aria-label=""
-                    aria-describedby="button-addon2"
+                      aria-describedby="button-addon2"
+                      required
                   />
 
                   <label className="fw-normal" name="title" for="floatingInput">
@@ -294,15 +297,17 @@ const Mentor = ({ baseURL, userData }) => {
                     name="typeoftask"
                     value={typeoftask}
                     aria-label="Default select example"
-                    onChange={(e) => setTypeOfTask(e.target.value)}
+                      onChange={(e) => setTypeOfTask(e.target.value)}
+                      required
                   >
-                    <option disabled selected>
+                    <option selected disabled>
                       Select Type of Task
                     </option>
                     <option value="Frontend">Frontend</option>
                     <option value="Backend">Backend</option>
                     <option value="FullStack">FullStack</option>
-                  </select>
+                    </select>
+                    
                 </div>
                 <button class="btn btn-primary" type="submit" id="">
                   Submit

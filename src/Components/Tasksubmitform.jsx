@@ -94,6 +94,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -115,6 +116,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -146,6 +148,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -167,6 +170,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -204,6 +208,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -225,6 +230,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -246,6 +252,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
@@ -267,6 +274,7 @@ useEffect(() => {
                 placeholder=""
                 aria-label=""
                 aria-describedby="button-addon2"
+                required
               />
 
               <label
