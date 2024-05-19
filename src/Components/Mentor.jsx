@@ -155,7 +155,7 @@ const Mentor = ({ baseURL, userData }) => {
           </nav>
 
           {visible ? (
-            <div className="row">
+            <div className="row me-0">
               {data.length === 0 ? (
                 <>
                   <div className="text-warning text-center text-uppercase">
@@ -171,7 +171,7 @@ const Mentor = ({ baseURL, userData }) => {
                           <form
                             className="form rounded p-3"
                             onSubmit={handleSubmit}
-                            style={{ height: "25em" }}
+                            style={{ height: "28em", width:"60em" }}
                           >
                             <div>
                               <h4>Task Name: {item.title}</h4>
