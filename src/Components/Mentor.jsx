@@ -116,7 +116,7 @@ const Mentor = ({ baseURL, userData }) => {
         <>
           <nav
             className="d-flex position-absolute"
-            style={{ top: "5.2em", left: "3em" }}
+            style={{ top: "1em", left: "3em" }}
           >
             <button
               id={visible ? "active" : null}
