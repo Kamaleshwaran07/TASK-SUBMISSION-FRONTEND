@@ -8,6 +8,7 @@ import Dashboard from './Components/Dashboard';
 import Forgotpassword from './Components/Forgotpassword';
 import Resetpassword from './Components/Resetpassword';
 import Tasksubmitform from './Components/Tasksubmitform';
+import Pagenotfound from './Components/Pagenotfound';
 
 const App = () => {
   const [taskId, setTaskId] = useState(0)
@@ -38,6 +39,7 @@ const [isAuthenticated, setIsAuthenticated] = useState(false)
           
           {/* <Route path='/' element={<Home />} /> */}
         </Routes>
+        <Route path='*' element={<Pagenotfound />} />
     </BrowserRouter>
     
     </div>
