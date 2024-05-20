@@ -62,7 +62,8 @@ const Mentor = ({ baseURL, userData }) => {
         payloads
       );
       setResponseMsg(response.data.message);
-      setData([]);
+      setScore("")
+      setComment("")
       fetchData();
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message)
