@@ -176,7 +176,7 @@ const Mentor = ({ baseURL, userData }) => {
                           <form
                             className="form rounded p-3"
                             onSubmit={handleSubmit}
-                            style={{ height: "28em", width:"60em" }}
+                            style={{ height: "24em", width:"60em" }}
                           >
                             <div>
                               <h4>Task Name: {item.title}</h4>
