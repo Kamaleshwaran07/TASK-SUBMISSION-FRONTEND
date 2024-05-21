@@ -46,9 +46,10 @@ const Mentor = ({ baseURL, userData }) => {
   };
 
   // To send the task id to the backend
-  const utaskId = data.map((item, index) => {
+  const [utaskId] = data.map((item, index) => {
     return item.taskId;
   });
+  console.log(utaskId);
   // console.log(utaskId);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,9 +63,12 @@ const Mentor = ({ baseURL, userData }) => {
         payloads
       );
       setResponseMsg(response.data.message);
+      setData([])
       setScore("")
       setComment("")
-      fetchData();
+      setTimeout(() => {
+        fetchData();
+      }, 1000);
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message)
         setErrorMsg(error.response.data.message);
@@ -73,7 +77,7 @@ const Mentor = ({ baseURL, userData }) => {
       }
     }
   };
-  console.log(title, typeoftask);
+  
   const handleCreateTaskSubmit = async (e) => {
     e.preventDefault()
     const payloads = { title, typeoftask };
@@ -97,7 +101,7 @@ const Mentor = ({ baseURL, userData }) => {
      setIsLoading(false);
    }, 1000);
  }, []);
-  console.log(comment, score);
+  console.log(title, typeoftask);
   return (
     <div>
       {isLoading && (
@@ -301,10 +305,8 @@ const Mentor = ({ baseURL, userData }) => {
                       onChange={(e) => setTypeOfTask(e.target.value)}
                       required
                   >
-                    <option selected disabled>
-                      Select Type of Task
-                    </option>
-                    <option value="Frontend">Frontend</option>
+                   
+                    <option selected value="Frontend">Frontend</option>
                     <option value="Backend">Backend</option>
                     <option value="FullStack">FullStack</option>
                     </select>

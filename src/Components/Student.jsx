@@ -17,7 +17,9 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
   const [pendingData, setPendingData] = useState([]);
     const [visible, setVisible] = useState(false);
     // const [visibleTask, setVisibleTask] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [submittedTask, setSubmittedTask] = useState([])
+  const [evaluatedTask, setEvaluatedTask] = useState([])
   const userId = userData._id;
   // console.log(userId);
  const navigate = useNavigate()
@@ -27,7 +29,9 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       const response = await axios.post(`${baseURL}gettask/${userId}`);
       // setIsLoading(true)
         setData(response.data.comments);
-        setPendingData(response.data.pendingTask);
+      setPendingData(response.data.pendingTask);
+      setSubmittedTask(response.data.submittedTasks)
+      setEvaluatedTask(response.data.evaluatedTask)
         // setTimeout(() => {
         //     setIsLoading(false)
         // },1500)
@@ -68,10 +72,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
 
       {!isLoading && (
         <>
-          <nav
-            className="fixed-top d-flex"
-            style={{ top: "6em", left: "3em" }}
-          >
+          <nav className="fixed-top d-flex" style={{ top: "6em", left: "3em" }}>
             <button
               id={visible ? "active" : null}
               className="btn border border-2 pt-2 pb-0 ms-0 me-2"
@@ -164,55 +165,130 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
                       <th>Score</th>
                     </tr>
                   </thead>
-                  {data.map((item, index) => {
-                    return (
-                      <tbody className="">
-                        <tr>
-                          <td class="w-25">
-                            <span className="ms-2 text-primary-emphasis">
-                              {item.title}
-                            </span>
-                          </td>
-                          <td class="w-25">
-                            <span className="ms-2 text-primary-emphasis">
-                              {item.status}
-                            </span>
-                          </td>
-                          <td class="w-75 overflow-auto">
-                            <span className="ms-2">{item.comment}</span>
-                          </td>
-                          <td class="w-50 ">
-                            {item.score >= 6 && item.score < 8 && (
-                              <span
-                                className="ms-2 "
-                                style={{ color: "orange" }}
-                              >
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score >= 8 && item.score <= 10 && (
-                              <span className="ms-2 text-success">
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score >= 1 && item.score <= 5 && (
-                              <span className="ms-2 text-danger">
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score === "Not yet Graded" && (
-                              <span
-                                className="ms-2 "
-                                style={{ color: "orange" }}
-                              >
-                                {item.score}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
+                  {evaluatedTask === null ? (
+                    <div>
+                      <h1 className="text-center">No tasks evaluated yet</h1>
+                    </div>
+                  ) : (
+                    <>
+                      {evaluatedTask.map((item, index) => {
+                        return (
+                          <tbody className="">
+                            <tr>
+                              <td class="w-25">
+                                <span className="ms-2 text-primary-emphasis">
+                                  {item.title}
+                                </span>
+                              </td>
+                              <td class="w-25">
+                                <span className="ms-2 text-primary-emphasis">
+                                  {item.status}
+                                </span>
+                              </td>
+                              <td class="w-75 overflow-auto">
+                                <span className="ms-2">{item.comment}</span>
+                              </td>
+                              <td class="w-50 ">
+                                {item.score >= 6 && item.score < 8 && (
+                                  <span
+                                    className="ms-2 "
+                                    style={{ color: "orange" }}
+                                  >
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score >= 8 && item.score <= 10 && (
+                                  <span className="ms-2 text-success">
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score >= 1 && item.score <= 5 && (
+                                  <span className="ms-2 text-danger">
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score === "Not yet Graded" && (
+                                  <span
+                                    className="ms-2 "
+                                    style={{ color: "orange" }}
+                                  >
+                                    {item.score}
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        );
+                      })}
+                    </>
+                  )}
+                </table>
+                <table className="table table-hover table-bordered text-center">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Status</th>
+                      <th>Comment</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  {/* {submittedTask.length === 0 ? (
+                    <div>
+                      <h1 className="text-center">No tasks submitted yet</h1>
+                    </div>
+                  ) : (
+                    <> */}
+                      {submittedTask.map((item, index) => {
+                        return (
+                          <tbody className="" key={index}>
+                            <tr>
+                              <td class="w-25">
+                                <span className="ms-2 text-primary-emphasis">
+                                  {item.title}
+                                </span>
+                              </td>
+                              <td class="w-25">
+                                <span className="ms-2 text-primary-emphasis">
+                                  {item.status}
+                                </span>
+                              </td>
+                              <td class="w-75 overflow-auto">
+                                <span className="ms-2">{item.comment}</span>
+                              </td>
+                              <td class="w-50 ">
+                                {item.score >= 6 && item.score < 8 && (
+                                  <span
+                                    className="ms-2 "
+                                    style={{ color: "orange" }}
+                                  >
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score >= 8 && item.score <= 10 && (
+                                  <span className="ms-2 text-success">
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score >= 1 && item.score <= 5 && (
+                                  <span className="ms-2 text-danger">
+                                    {item.score}
+                                  </span>
+                                )}
+                                {item.score === "Not yet Graded" && (
+                                  <span
+                                    className="ms-2 "
+                                    style={{ color: "orange" }}
+                                  >
+                                    {item.score}
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        );
+                      })}
+                    {/* </> */}
+                  
                 </table>
               </div>
             )}
