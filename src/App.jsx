@@ -38,8 +38,8 @@ const [isAuthenticated, setIsAuthenticated] = useState(false)
           <Route path='/resetpassword/:userId/:token' element={<Resetpassword baseURL={baseURL} />} />
           
           {/* <Route path='/' element={<Home />} /> */}
-        </Routes>
         <Route path='*' element={<Pagenotfound />} />
+        </Routes>
     </BrowserRouter>
     
     </div>
