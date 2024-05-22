@@ -60,7 +60,11 @@ const Signin = ({ baseURL }) => {
         setResponseMsg(res.data.message);
         setShowToast(true)
         setData("")
-       
+      setTimeout(() => {
+        setResponseMsg("")
+        
+      }, 4000);
+     
       } catch (error) {
         if (
           error.response &&
@@ -69,6 +73,10 @@ const Signin = ({ baseURL }) => {
         ) {
           setErrorMsg(error.response.data.message);
           setShowToast(true)
+        setTimeout(() => {
+          setErrorMsg("")
+          
+        }, 4000);
         } else {
           setErrorMsg("An error occurred");
         }
@@ -218,7 +226,7 @@ const Signin = ({ baseURL }) => {
           <>
             {showToast && (
               <div className="toaster text-primary fw-bold d-flex p-2 align-items-center" style={{top:"75px", right:"40px", borderRadius:"5px"}}>
-              <img src="../user.gif" alt="success" className="mr-2" />{responseMsg}!!!
+              <img src="../user.gif" alt="success" className="mr-2" width={25} />{responseMsg}!!!
                 </div>
             )}
           </>
@@ -226,8 +234,8 @@ const Signin = ({ baseURL }) => {
         {errorMsg && (
           <>
             {showToast && (
-              <div className="bg-danger position-flex flex-row align-items-center text-white py-2  toaster" style={{top:60, right:5}}>
-              <img src="../404.gif" alt="success" className="mr-2" /> {errorMsg}
+              <div className="bg-danger position-flex flex-row align-items-center text-white py-0  toaster" style={{top:60, right:5}}>
+              <img src="../404.gif" alt="success" className="mr-2 pt-0" width={25} /> {errorMsg}
               </div>
             )}
           </>
