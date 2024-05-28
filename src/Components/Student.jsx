@@ -20,6 +20,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [submittedTask, setSubmittedTask] = useState([])
   const [evaluatedTask, setEvaluatedTask] = useState([])
+  const [filteredTask, setFilteredTask] = useState([])
   const userId = userData._id;
   // console.log(userId);
  const navigate = useNavigate()
@@ -30,17 +31,20 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       // setIsLoading(true)
         setData(response.data.comments);
       setPendingData(
+        response.data.pendingTask
+      );
+      setSubmittedTask(response.data.submittedTasks)
+      setEvaluatedTask(response.data.evaluatedTask)
+        // setTimeout(() => {
+        //     setIsLoading(false)
+      // },1500)
+      setFilteredTask(
         pendingData.filter((pendingData) =>
           submittedTask.some(
             (submittedTask) => submittedTask.taskId !== pendingData.taskId
           )
         )
       );
-      setSubmittedTask(response.data.submittedTasks)
-      setEvaluatedTask(response.data.evaluatedTask)
-        // setTimeout(() => {
-        //     setIsLoading(false)
-        // },1500)
     } catch {
       setErrorMsg(error.response.data.message);
     }
@@ -128,7 +132,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
               <div className="container" href="/form">
                 <h3>Task Submission</h3>
                 <div className="">
-                  {pendingData.map((item, index) => {
+                  {filteredTask.map((item, index) => {
                     {
                       /* const dateandtime = item.createdAt;
                 const split = dateandtime.split(", "); */
