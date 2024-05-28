@@ -3,7 +3,7 @@ import { setNestedObjectValues } from "formik";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
+const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
   const [frontendcode, setFrontendCode] = useState("");
   const [frontendurl, setFrontendUrl] = useState("");
   const [backendcode, setBackendCode] = useState("");
@@ -41,7 +41,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       setFilteredTask(
         pendingData.filter((pendingData) =>
           submittedTask.some(
-            (submittedTask) => submittedTask.taskId !== pendingData.taskId
+            () => submittedTask.taskId !== pendingData.taskId
           )
         )
       );
@@ -51,6 +51,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
   };
   const handleEdit = (taskId) => {
     setTaskId(taskId)
+    
     // setUserID(userId)
     navigate('/tasksubmit')
   }
@@ -132,7 +133,7 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
               <div className="container" href="/form">
                 <h3>Task Submission</h3>
                 <div className="">
-                  {filteredTask.map((item, index) => {
+                  {pendingData.map((item, index) => {
                     {
                       /* const dateandtime = item.createdAt;
                 const split = dateandtime.split(", "); */

@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import errorImage from '/404.gif'
 
-const Tasksubmitform = ({ baseURL, taskId, userID, userData }) => {
+const Tasksubmitform = ({ baseURL, taskId, userID, userData}) => {
      const [frontendcode, setFrontendCode] = useState("");
      const [frontendurl, setFrontendUrl] = useState("");
      const [backendcode, setBackendCode] = useState("");
-    const [backendurl, setBackendUrl] = useState("");
+  const [backendurl, setBackendUrl] = useState("");
     const [isLoading, setIsLoading] = useState(false);
  const [responseMsg, setResponseMsg] = useState("");
  const [errorMsg, setErrorMsg] = useState("");
@@ -17,15 +17,14 @@ const Tasksubmitform = ({ baseURL, taskId, userID, userData }) => {
     const userId= userData._id
     const fetchData = async () => {
         try {
-            
-            const response = await axios.post(`${baseURL}gettaskId/${taskId}`)
-            setData(response.data)
-            console.log(response.data);
+          const response = await axios.post(`${baseURL}gettaskId/${taskId}`)
+          setData(response.data)
+          console.log(response.data);
         } catch (error) {
             setErrorMsg(error.response.data.message)
         }
 
-}
+  }
 useEffect(() => {
     fetchData();
 }, []);

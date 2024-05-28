@@ -13,7 +13,6 @@ import Pagenotfound from './Components/Pagenotfound';
 const App = () => {
   const [taskId, setTaskId] = useState(0)
   const [userID, setUserID] = useState(0);
-  
   const baseURL = 'https://task-submission-backend-m1do.onrender.com/api/';
   // const baseURL = "http://localhost:5050/api/";
   const [userData, setUserData] = useState('')
@@ -23,25 +22,62 @@ const [isAuthenticated, setIsAuthenticated] = useState(false)
   return (
     <div>
       <BrowserRouter>
-      <NavBar isAuthenticated = {isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+        <NavBar
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+        />
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/signup' element={<Signin baseURL={baseURL} />} />
-         
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signin baseURL={baseURL} />} />
 
-          <Route path='/login' element={<Login baseURL={baseURL} setUserData={setUserData} setIsAuthenticated= {setIsAuthenticated} />} />
-          <Route path='/dashboard' element={<Dashboard userData={userData} setIsAuthenticated ={setIsAuthenticated} baseURL={baseURL} setTaskId = {setTaskId} setUserID = {setUserID} />} />
- 
-         <Route path='tasksubmit' element = {<Tasksubmitform baseURL = {baseURL} taskId = {taskId} userID= {userID} userData = {userData} />} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                baseURL={baseURL}
+                setUserData={setUserData}
+                setIsAuthenticated={setIsAuthenticated}
+              />
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard
+                userData={userData}
+                setIsAuthenticated={setIsAuthenticated}
+                baseURL={baseURL}
+                setTaskId={setTaskId}
+                setUserID={setUserID}
+              />
+            }
+          />
 
-          <Route path='/forgotpassword' element={<Forgotpassword baseURL={baseURL} />} />
-          <Route path='/resetpassword/:userId/:token' element={<Resetpassword baseURL={baseURL} />} />
-          
+          <Route
+            path="tasksubmit"
+            element={
+              <Tasksubmitform
+                baseURL={baseURL}
+                taskId={taskId}
+                userID={userID}
+                userData={userData}
+              />
+            }
+          />
+
+          <Route
+            path="/forgotpassword"
+            element={<Forgotpassword baseURL={baseURL} />}
+          />
+          <Route
+            path="/resetpassword/:userId/:token"
+            element={<Resetpassword baseURL={baseURL} />}
+          />
+
           {/* <Route path='/' element={<Home />} /> */}
-        <Route path='*' element={<Pagenotfound />} />
+          <Route path="*" element={<Pagenotfound />} />
         </Routes>
-    </BrowserRouter>
-    
+      </BrowserRouter>
     </div>
   );
 };
