@@ -29,7 +29,13 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       const response = await axios.post(`${baseURL}gettask/${userId}`);
       // setIsLoading(true)
         setData(response.data.comments);
-      setPendingData(response.data.pendingTask);
+      setPendingData(
+        pendingData.filter((pendingData) =>
+          submittedTask.some(
+            (submittedTask) => submittedTask.taskId !== pendingData.taskId
+          )
+        )
+      );
       setSubmittedTask(response.data.submittedTasks)
       setEvaluatedTask(response.data.evaluatedTask)
         // setTimeout(() => {
@@ -39,7 +45,6 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
       setErrorMsg(error.response.data.message);
     }
   };
-
   const handleEdit = (taskId) => {
     setTaskId(taskId)
     // setUserID(userId)
@@ -152,6 +157,9 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
                       </div>
                     );
                   })}
+                  <div>
+                  
+                  </div>
                 </div>
               </div>
             ) : (
@@ -238,57 +246,56 @@ const Student = ({ userData, baseURL, setTaskId, setUserID }) => {
                     </div>
                   ) : (
                     <> */}
-                      {submittedTask.map((item, index) => {
-                        return (
-                          <tbody className="" key={index}>
-                            <tr>
-                              <td class="w-25">
-                                <span className="ms-2 text-primary-emphasis">
-                                  {item.title}
-                                </span>
-                              </td>
-                              <td class="w-25">
-                                <span className="ms-2 text-primary-emphasis">
-                                  {item.status}
-                                </span>
-                              </td>
-                              <td class="w-75 overflow-auto">
-                                <span className="ms-2">{item.comment}</span>
-                              </td>
-                              <td class="w-50 ">
-                                {item.score >= 6 && item.score < 8 && (
-                                  <span
-                                    className="ms-2 "
-                                    style={{ color: "orange" }}
-                                  >
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score >= 8 && item.score <= 10 && (
-                                  <span className="ms-2 text-success">
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score >= 1 && item.score <= 5 && (
-                                  <span className="ms-2 text-danger">
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score === "Not yet Graded" && (
-                                  <span
-                                    className="ms-2 "
-                                    style={{ color: "orange" }}
-                                  >
-                                    {item.score}
-                                  </span>
-                                )}
-                              </td>
-                            </tr>
-                          </tbody>
-                        );
-                      })}
-                    {/* </> */}
-                  
+                  {submittedTask.map((item, index) => {
+                    return (
+                      <tbody className="" key={index}>
+                        <tr>
+                          <td class="w-25">
+                            <span className="ms-2 text-primary-emphasis">
+                              {item.title}
+                            </span>
+                          </td>
+                          <td class="w-25">
+                            <span className="ms-2 text-primary-emphasis">
+                              {item.status}
+                            </span>
+                          </td>
+                          <td class="w-75 overflow-auto">
+                            <span className="ms-2">{item.comment}</span>
+                          </td>
+                          <td class="w-50 ">
+                            {item.score >= 6 && item.score < 8 && (
+                              <span
+                                className="ms-2 "
+                                style={{ color: "orange" }}
+                              >
+                                {item.score}
+                              </span>
+                            )}
+                            {item.score >= 8 && item.score <= 10 && (
+                              <span className="ms-2 text-success">
+                                {item.score}
+                              </span>
+                            )}
+                            {item.score >= 1 && item.score <= 5 && (
+                              <span className="ms-2 text-danger">
+                                {item.score}
+                              </span>
+                            )}
+                            {item.score === "Not yet Graded" && (
+                              <span
+                                className="ms-2 "
+                                style={{ color: "orange" }}
+                              >
+                                {item.score}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+                  {/* </> */}
                 </table>
               </div>
             )}
