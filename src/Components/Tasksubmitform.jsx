@@ -50,7 +50,6 @@ useEffect(() => {
         setFrontendUrl("");
         navigate('/dashboard')
         // setTitle("");
-        fetchData();
       } catch (error) {
         setErrorMsg("error.response.data.message");
         // setShowToast(true);

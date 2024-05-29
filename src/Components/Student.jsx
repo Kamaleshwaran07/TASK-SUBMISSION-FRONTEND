@@ -1,9 +1,8 @@
 import axios from "axios";
-import { setNestedObjectValues } from "formik";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
+const Student = ({ userData, baseURL, setTaskId }) => {
   const [frontendcode, setFrontendCode] = useState("");
   const [frontendurl, setFrontendUrl] = useState("");
   const [backendcode, setBackendCode] = useState("");
@@ -12,59 +11,54 @@ const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [title, setTitle] = useState("");
-  // const [taskId, setTaskId] = useState('')
   const [data, setData] = useState([]);
   const [pendingData, setPendingData] = useState([]);
-    const [visible, setVisible] = useState(false);
-    // const [visibleTask, setVisibleTask] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
-  const [submittedTask, setSubmittedTask] = useState([])
-  const [evaluatedTask, setEvaluatedTask] = useState([])
-  const [filteredTask, setFilteredTask] = useState([])
+  const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [submittedTask, setSubmittedTask] = useState([]);
+  const [evaluatedTask, setEvaluatedTask] = useState([]);
+  const [filteredTask, setFilteredTask] = useState([]);
   const userId = userData._id;
-  // console.log(userId);
- const navigate = useNavigate()
+  const navigate = useNavigate();
+
   // Fetching the submitted task
   const fetchData = async () => {
     try {
       const response = await axios.post(`${baseURL}gettask/${userId}`);
-      // setIsLoading(true)
-        setData(response.data.comments);
-      setPendingData(
-        response.data.pendingTask
-      );
-      setSubmittedTask(response.data.submittedTasks)
-      setEvaluatedTask(response.data.evaluatedTask)
-        // setTimeout(() => {
-        //     setIsLoading(false)
-      // },1500)
-      setFilteredTask(
-        pendingData.filter((pendingData) =>
-          submittedTask.some(
-            () => submittedTask.taskId !== pendingData.taskId
+      setData(response.data.comments);
+      setPendingData(response.data.pendingTask);
+      setSubmittedTask(response.data.submittedTasks);
+      setEvaluatedTask(response.data.evaluatedTask);
+
+      const filtered = response.data.pendingTask.filter(
+        (pendingData) =>
+          !response.data.submittedTasks.some(
+            (submittedTask) => submittedTask.taskId === pendingData.taskId
           )
-        )
       );
-    } catch {
-      setErrorMsg(error.response.data.message);
+
+      setFilteredTask(filtered);
+    } catch (error) {
+      setErrorMsg(
+        error.response ? error.response.data.message : "An error occurred"
+      );
     }
   };
+
   const handleEdit = (taskId) => {
-    setTaskId(taskId)
-    
-    // setUserID(userId)
-    navigate('/tasksubmit')
-  }
+    setTaskId(taskId);
+    setPendingData([]);
+    navigate("/tasksubmit");
+  };
+
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     setTimeout(() => {
       fetchData();
-      setIsLoading(false)
-     }, 1000);
+      setIsLoading(false);
+    }, 1000);
   }, []);
-  // const handleVisibilityform = () => {
 
-  // }
   return (
     <div className="container">
       {isLoading && (
@@ -110,65 +104,54 @@ const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
               <h6>Submitted Tasks</h6>
             </button>
             <button
-              className="btn ms-3 pt-2 pb-0 d-flex  bg-primary text-white"
+              className="btn ms-3 pt-2 pb-0 d-flex bg-primary text-white"
               type="button"
               onClick={() => fetchData()}
             >
               Refresh
               {isLoading && (
-                <div class="loaderContainer ms-2">
-                  <div class="dot"></div>
-                  <div class="dot"></div>
-                  <div class="dot"></div>
-                  <div class="dot"></div>
-                  <div class="dot"></div>
-                  <div class="dot"></div>
+                <div className="loaderContainer ms-2">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
                 </div>
               )}
             </button>
           </nav>
-          <div className="" style={{}}>
-            {/* Handling the task submission form*/}
+          <div>
             {visible ? (
               <div className="container" href="/form">
                 <h3>Task Submission</h3>
-                <div className="">
-                  {pendingData.map((item, index) => {
-                    {
-                      /* const dateandtime = item.createdAt;
-                const split = dateandtime.split(", "); */
-                    }
-                    return (
-                      <div
-                        className="d-flex  align-items-center justify-content-evenly gap-2 p-2"
-                        key={index}
-                        style={{ width: "35rem" }}
+                <div>
+                  {filteredTask.map((item, index) => (
+                    <div
+                      className="d-flex align-items-center justify-content-evenly gap-2 p-2"
+                      key={index}
+                      style={{ width: "35rem" }}
+                    >
+                      <h5>
+                        Title:{" "}
+                        <span className="text-primary">{item.title}</span>
+                      </h5>
+                      <h6 className="fw-normal">
+                        Status:{" "}
+                        <span className="text-danger">{item.status}</span>
+                      </h6>
+                      <button
+                        className="btn border-2 btn-primary float-end"
+                        onClick={() => handleEdit(item.taskId)}
                       >
-                        <h5>
-                          Title:{" "}
-                          <span className="text-primary">{item.title}</span>
-                        </h5>
-                        <h6 className="fw-normal">
-                          Status:{" "}
-                          <span className="text-danger">{item.status}</span>
-                        </h6>
-                        {/* <h4>{item.taskId}</h4> */}
-                        <button
-                          className="btn border-2 btn-primary float-end"
-                          onClick={() => handleEdit(item.taskId)}
-                        >
-                          Submit your task
-                        </button>
-                      </div>
-                    );
-                  })}
-                  <div>
-                  
-                  </div>
+                        Submit your task
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : (
-              <div href="/tasks" className={visible ? "d-none" : "row  ms-0 "}>
+              <div href="/tasks" className={visible ? "d-none" : "row ms-0"}>
                 <table className="table table-hover table-bordered text-center">
                   <thead>
                     <tr>
@@ -184,55 +167,53 @@ const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
                     </div>
                   ) : (
                     <>
-                      {evaluatedTask.map((item, index) => {
-                        return (
-                          <tbody className="">
-                            <tr>
-                              <td class="w-25">
-                                <span className="ms-2 text-primary-emphasis">
-                                  {item.title}
+                      {evaluatedTask.map((item, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td className="w-25">
+                              <span className="ms-2 text-primary-emphasis">
+                                {item.title}
+                              </span>
+                            </td>
+                            <td className="w-25">
+                              <span className="ms-2 text-primary-emphasis">
+                                {item.status}
+                              </span>
+                            </td>
+                            <td className="w-75 overflow-auto">
+                              <span className="ms-2">{item.comment}</span>
+                            </td>
+                            <td className="w-50">
+                              {item.score >= 6 && item.score < 8 && (
+                                <span
+                                  className="ms-2"
+                                  style={{ color: "orange" }}
+                                >
+                                  {item.score}
                                 </span>
-                              </td>
-                              <td class="w-25">
-                                <span className="ms-2 text-primary-emphasis">
-                                  {item.status}
+                              )}
+                              {item.score >= 8 && item.score <= 10 && (
+                                <span className="ms-2 text-success">
+                                  {item.score}
                                 </span>
-                              </td>
-                              <td class="w-75 overflow-auto">
-                                <span className="ms-2">{item.comment}</span>
-                              </td>
-                              <td class="w-50 ">
-                                {item.score >= 6 && item.score < 8 && (
-                                  <span
-                                    className="ms-2 "
-                                    style={{ color: "orange" }}
-                                  >
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score >= 8 && item.score <= 10 && (
-                                  <span className="ms-2 text-success">
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score >= 1 && item.score <= 5 && (
-                                  <span className="ms-2 text-danger">
-                                    {item.score}
-                                  </span>
-                                )}
-                                {item.score === "Not yet Graded" && (
-                                  <span
-                                    className="ms-2 "
-                                    style={{ color: "orange" }}
-                                  >
-                                    {item.score}
-                                  </span>
-                                )}
-                              </td>
-                            </tr>
-                          </tbody>
-                        );
-                      })}
+                              )}
+                              {item.score >= 1 && item.score <= 5 && (
+                                <span className="ms-2 text-danger">
+                                  {item.score}
+                                </span>
+                              )}
+                              {item.score === "Not yet Graded" && (
+                                <span
+                                  className="ms-2"
+                                  style={{ color: "orange" }}
+                                >
+                                  {item.score}
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
                     </>
                   )}
                 </table>
@@ -245,62 +226,47 @@ const Student = ({ userData, baseURL, setTaskId, setUserID}) => {
                       <th>Score</th>
                     </tr>
                   </thead>
-                  {/* {submittedTask.length === 0 ? (
-                    <div>
-                      <h1 className="text-center">No tasks submitted yet</h1>
-                    </div>
-                  ) : (
-                    <> */}
-                  {submittedTask.map((item, index) => {
-                    return (
-                      <tbody className="" key={index}>
-                        <tr>
-                          <td class="w-25">
-                            <span className="ms-2 text-primary-emphasis">
-                              {item.title}
+                  {submittedTask.map((item, index) => (
+                    <tbody key={index}>
+                      <tr>
+                        <td className="w-25">
+                          <span className="ms-2 text-primary-emphasis">
+                            {item.title}
+                          </span>
+                        </td>
+                        <td className="w-25">
+                          <span className="ms-2 text-primary-emphasis">
+                            {item.status}
+                          </span>
+                        </td>
+                        <td className="w-75 overflow-auto">
+                          <span className="ms-2">{item.comment}</span>
+                        </td>
+                        <td className="w-50">
+                          {item.score >= 6 && item.score < 8 && (
+                            <span className="ms-2" style={{ color: "orange" }}>
+                              {item.score}
                             </span>
-                          </td>
-                          <td class="w-25">
-                            <span className="ms-2 text-primary-emphasis">
-                              {item.status}
+                          )}
+                          {item.score >= 8 && item.score <= 10 && (
+                            <span className="ms-2 text-success">
+                              {item.score}
                             </span>
-                          </td>
-                          <td class="w-75 overflow-auto">
-                            <span className="ms-2">{item.comment}</span>
-                          </td>
-                          <td class="w-50 ">
-                            {item.score >= 6 && item.score < 8 && (
-                              <span
-                                className="ms-2 "
-                                style={{ color: "orange" }}
-                              >
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score >= 8 && item.score <= 10 && (
-                              <span className="ms-2 text-success">
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score >= 1 && item.score <= 5 && (
-                              <span className="ms-2 text-danger">
-                                {item.score}
-                              </span>
-                            )}
-                            {item.score === "Not yet Graded" && (
-                              <span
-                                className="ms-2 "
-                                style={{ color: "orange" }}
-                              >
-                                {item.score}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
-                    );
-                  })}
-                  {/* </> */}
+                          )}
+                          {item.score >= 1 && item.score <= 5 && (
+                            <span className="ms-2 text-danger">
+                              {item.score}
+                            </span>
+                          )}
+                          {item.score === "Not yet Graded" && (
+                            <span className="ms-2" style={{ color: "orange" }}>
+                              {item.score}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    </tbody>
+                  ))}
                 </table>
               </div>
             )}
